@@ -20,11 +20,11 @@ then
 fi
 
 PROJECT_NAME=${PWD##*/}
-FULL_PROJECT_NAME=$PROJECT_NAME.$FULL_VERSION
+FULL_PROJECT_NAME="$PROJECT_NAME.$FULL_VERSION"
 echo "Project name: $PROJECT_NAME"
 
 upload_url=$(curl -s -H "Authorization: token $token"  \
-     -d "{\"tag_name\": \"test\", \"name\":\"$PROJECT_NAME-$FULL_VERSION\",\"body\":\"this is a test release\"}"  \
+     -d "{\"tag_name\": \"$BRANCH\", \"name\":\"$PROJECT_NAME.$FULL_VERSION\",\"body\":\"$BRANCH release\"}"  \
      "https://api.github.com/repos/$repo/releases" | jq -r '.upload_url')
 
 upload_url="${upload_url%\{*}"
