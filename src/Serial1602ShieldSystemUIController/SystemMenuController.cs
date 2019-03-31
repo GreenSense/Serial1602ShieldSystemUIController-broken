@@ -106,6 +106,10 @@ namespace SerialSystemUI
             illuminatorMenuStructure.Items.Add ("D", new MenuItemInfo ("D", "Dark", "", true));
             illuminatorMenuStructure.Items.Add ("B", new MenuItemInfo ("B", "Bright", "", true));
             MenuStructure.Add ("illuminator", illuminatorMenuStructure);
+
+            var uiMenuStructure = new MenuInfo ("ui");
+            uiMenuStructure.Items.Add ("Z", new MenuItemInfo ("Z", "Version", "", false));
+            MenuStructure.Add ("ui", illuminatorMenuStructure);
         }
 
         public void Run ()
