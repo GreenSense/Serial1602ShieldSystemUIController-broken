@@ -37,6 +37,12 @@ pipeline {
                 sh 'sh build.sh'
             }
         }
+        stage('Pack') {
+            when { expression { !shouldSkipBuild() } }
+            steps {
+                sh 'sh pack.sh'
+            }
+        }
         stage('Release') {
             when { expression { !shouldSkipBuild() } }
             steps {
