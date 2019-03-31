@@ -20,7 +20,7 @@ then
     FULL_VERSION="$FULL_VERSION-dev"
 fi
 
-PROJECT_NAME=${PWD##*/}
+PROJECT_NAME="Serial1602ShieldSystemUIController"
 FULL_PROJECT_NAME=$PROJECT_NAME.$FULL_VERSION
 echo "Project name: $PROJECT_NAME"
 echo "Project version: $PROJECT_NAME"

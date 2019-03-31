@@ -46,7 +46,7 @@ pipeline {
         stage('Release') {
             when { expression { !shouldSkipBuild() } }
             steps {
-                sh 'sh git-release-bin.sh'
+                sh 'sh publish-release.sh'
             }
         }
         stage('Clean') {
