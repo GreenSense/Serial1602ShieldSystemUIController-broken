@@ -319,7 +319,6 @@ namespace SerialSystemUI
 
                 if (menuItemInfo != null) {
                     var valueLabel = menuItemInfo.Label;
-                    //var valueKey = GetValueKey (deviceInfo);
                     var valueKey = menuItemInfo.Key;
 
                     var value = String.Empty;

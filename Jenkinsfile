@@ -37,6 +37,12 @@ pipeline {
                 sh 'sh build.sh'
             }
         }
+        stage('Release') {
+            when { expression { !shouldSkipBuild() } }
+            steps {
+                sh 'sh git-release-bin.sh'
+            }
+        }
         stage('Clean') {
             when { expression { !shouldSkipBuild() } }
             steps {
