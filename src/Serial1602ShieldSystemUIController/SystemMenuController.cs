@@ -108,8 +108,8 @@ namespace SerialSystemUI
             MenuStructure.Add ("illuminator", illuminatorMenuStructure);
 
             var uiMenuStructure = new MenuInfo ("ui");
-            uiMenuStructure.Items.Add ("Z", new MenuItemInfo ("Z", "Version", "", false));
-            MenuStructure.Add ("ui", illuminatorMenuStructure);
+            //uiMenuStructure.Items.Add ("Z", new MenuItemInfo ("Z", "Version", "", false));
+            MenuStructure.Add ("ui", uiMenuStructure);
         }
 
         public void Run ()
@@ -165,7 +165,7 @@ namespace SerialSystemUI
                     
 
                     } catch (Exception ex) {
-                        Console.WriteLine ("Connection lost with: " + SerialPortName);
+                        Console.WriteLine ("An error occurred:");
                         Console.WriteLine (ex.ToString ());
                         Console.WriteLine ();
                         Console.WriteLine ("Waiting for 30 seconds then retrying");
@@ -311,27 +311,36 @@ namespace SerialSystemUI
 
         public void RenderSubItem ()
         {
-            //   var valueLabel = GetValueLabel (deviceInfo);
+            var didRenderSubItem = false;
+            if (MenuStructure.ContainsKey (CurrentDevice.DeviceGroup)) {
+                var menuInfo = MenuStructure [CurrentDevice.DeviceGroup];
 
-            var menuInfo = MenuStructure [CurrentDevice.DeviceGroup];
+                var menuItemInfo = GetMenuItemInfoByIndex (CurrentDevice.DeviceGroup, SubMenuIndex);
 
-            var menuItemInfo = GetMenuItemInfoByIndex (CurrentDevice.DeviceGroup, SubMenuIndex);
+                if (menuItemInfo != null) {
+                    var valueLabel = menuItemInfo.Label;
+                    //var valueKey = GetValueKey (deviceInfo);
+                    var valueKey = menuItemInfo.Key;
 
-            var valueLabel = menuItemInfo.Label;
-            //var valueKey = GetValueKey (deviceInfo);
-            var valueKey = menuItemInfo.Key;
+                    var value = String.Empty;
+                    if (CurrentDevice.UpdatedData.ContainsKey (valueKey)) {
+                        value = CurrentDevice.UpdatedData [valueKey];
+                    } else if (CurrentDevice.Data.ContainsKey (valueKey)) {
+                        value = CurrentDevice.Data [valueKey];
+                    }
+                    value = FixValueForDisplay (value, valueKey, CurrentDevice);
 
-            var value = String.Empty;
-            if (CurrentDevice.UpdatedData.ContainsKey (valueKey)) {
-                value = CurrentDevice.UpdatedData [valueKey];
-            } else if (CurrentDevice.Data.ContainsKey (valueKey)) {
-                value = CurrentDevice.Data [valueKey];
+                    // Send the second line to the display
+                    var message = valueLabel + " " + value + menuItemInfo.PostFix;
+                    SendMessageToDisplay (1, message);
+
+                    didRenderSubItem = true;
+                }
             }
-            value = FixValueForDisplay (value, valueKey, CurrentDevice);
 
-            // Send the second line to the display
-            var message = valueLabel + " " + value + menuItemInfo.PostFix;
-            SendMessageToDisplay (1, message);
+            if (!didRenderSubItem) {
+                SendMessageToDisplay (1, "                ");
+            }
         }
 
         public string FixValueForDisplay (string value, string key, DeviceInfo info)
