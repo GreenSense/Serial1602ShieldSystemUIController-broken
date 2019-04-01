@@ -1,5 +1,5 @@
 
-export GITHUB_TOKEN=GHTOKEN
+export GITHUB_TOKEN=$GHTOKEN
 
 VERSION=$(cat version.txt)
 BUILD_NUMBER=$(cat buildnumber.txt)
