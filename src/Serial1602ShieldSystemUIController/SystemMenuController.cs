@@ -156,12 +156,18 @@ namespace SerialSystemUI
                 // Wait until the first line arrives
                 Client.ReadLine ();
 
+                Thread.Sleep (1000);
+                SendMessageToDisplay (0, "Connected!");
+                SendMessageToDisplay (1, "                ");
+
+                Thread.Sleep (3000);
+
                 var isRunning = true;
                 while (isRunning) {
                     try {
                         RunLoop ();
                         
-                        Thread.Sleep (10);
+                        Thread.Sleep (20);
                     
 
                     } catch (Exception ex) {
