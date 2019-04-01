@@ -40,13 +40,13 @@ pipeline {
         stage('Pack') {
             when { expression { !shouldSkipBuild() } }
             steps {
-                sh 'sh pack.sh'
+                sh 'echo "Disabled pack" # sh pack.sh'
             }
         }
         stage('Release') {
             when { expression { !shouldSkipBuild() } }
             steps {
-                sh 'sh publish-release.sh'
+                sh 'echo "Disabled release" # sh publish-release.sh'
             }
         }
         stage('Clean') {
